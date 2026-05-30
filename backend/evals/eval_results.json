@@ -1,0 +1,911 @@
+{
+  "generated_at": "2026-05-17T23:04:04.710755+00:00",
+  "dataset": "saas_growth_sample",
+  "dataset_path": "sample-data\\saas_growth_sample.csv",
+  "overall_score": 1.0,
+  "minimum_overall_score": 0.85,
+  "passed": true,
+  "suites": [
+    {
+      "name": "column role detection",
+      "score": 1.0,
+      "passed": true,
+      "checks": [
+        {
+          "name": "date",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "actual": {
+              "inferred_type": "datetime",
+              "role": "datetime"
+            },
+            "expected": {
+              "inferred_type": "datetime",
+              "role": "datetime"
+            }
+          }
+        },
+        {
+          "name": "customer_id",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "actual": {
+              "inferred_type": "text",
+              "role": "id"
+            },
+            "expected": {
+              "inferred_type": "text",
+              "role": "id"
+            }
+          }
+        },
+        {
+          "name": "company_size",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "actual": {
+              "inferred_type": "categorical",
+              "role": "dimension"
+            },
+            "expected": {
+              "inferred_type": "categorical",
+              "role": "dimension"
+            }
+          }
+        },
+        {
+          "name": "region",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "actual": {
+              "inferred_type": "categorical",
+              "role": "dimension"
+            },
+            "expected": {
+              "inferred_type": "categorical",
+              "role": "dimension"
+            }
+          }
+        },
+        {
+          "name": "acquisition_channel",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "actual": {
+              "inferred_type": "categorical",
+              "role": "dimension"
+            },
+            "expected": {
+              "inferred_type": "categorical",
+              "role": "dimension"
+            }
+          }
+        },
+        {
+          "name": "plan",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "actual": {
+              "inferred_type": "categorical",
+              "role": "dimension"
+            },
+            "expected": {
+              "inferred_type": "categorical",
+              "role": "dimension"
+            }
+          }
+        },
+        {
+          "name": "monthly_revenue",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "actual": {
+              "inferred_type": "numeric",
+              "role": "metric"
+            },
+            "expected": {
+              "inferred_type": "numeric",
+              "role": "metric"
+            }
+          }
+        },
+        {
+          "name": "product_usage_score",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "actual": {
+              "inferred_type": "numeric",
+              "role": "metric"
+            },
+            "expected": {
+              "inferred_type": "numeric",
+              "role": "metric"
+            }
+          }
+        },
+        {
+          "name": "support_tickets",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "actual": {
+              "inferred_type": "numeric",
+              "role": "metric"
+            },
+            "expected": {
+              "inferred_type": "numeric",
+              "role": "metric"
+            }
+          }
+        },
+        {
+          "name": "churned",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "actual": {
+              "inferred_type": "numeric",
+              "role": "metric"
+            },
+            "expected": {
+              "inferred_type": "numeric",
+              "role": "metric"
+            }
+          }
+        },
+        {
+          "name": "signup_source",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "actual": {
+              "inferred_type": "categorical",
+              "role": "dimension"
+            },
+            "expected": {
+              "inferred_type": "categorical",
+              "role": "dimension"
+            }
+          }
+        },
+        {
+          "name": "sales_cycle_days",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "actual": {
+              "inferred_type": "numeric",
+              "role": "metric"
+            },
+            "expected": {
+              "inferred_type": "numeric",
+              "role": "metric"
+            }
+          }
+        },
+        {
+          "name": "discount_percentage",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "actual": {
+              "inferred_type": "numeric",
+              "role": "metric"
+            },
+            "expected": {
+              "inferred_type": "numeric",
+              "role": "metric"
+            }
+          }
+        },
+        {
+          "name": "nps_score",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "actual": {
+              "inferred_type": "numeric",
+              "role": "metric"
+            },
+            "expected": {
+              "inferred_type": "numeric",
+              "role": "metric"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "missing value detection",
+      "score": 1.0,
+      "passed": true,
+      "checks": [
+        {
+          "name": "nps_score",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "actual_count": 286,
+            "expected_count": 286,
+            "missing_percentage": 11.92
+          }
+        },
+        {
+          "name": "sales_cycle_days",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "actual_count": 243,
+            "expected_count": 243,
+            "missing_percentage": 10.12
+          }
+        },
+        {
+          "name": "discount_percentage",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "actual_count": 121,
+            "expected_count": 121,
+            "missing_percentage": 5.04
+          }
+        },
+        {
+          "name": "support_tickets",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "actual_count": 80,
+            "expected_count": 80,
+            "missing_percentage": 3.33
+          }
+        },
+        {
+          "name": "product_usage_score",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "actual_count": 54,
+            "expected_count": 54,
+            "missing_percentage": 2.25
+          }
+        },
+        {
+          "name": "signup_source",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "actual_count": 39,
+            "expected_count": 39,
+            "missing_percentage": 1.62
+          }
+        }
+      ]
+    },
+    {
+      "name": "duplicate detection",
+      "score": 1.0,
+      "passed": true,
+      "checks": [
+        {
+          "name": "duplicate_row_count",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "actual_count": 25,
+            "expected_count": 25
+          }
+        }
+      ]
+    },
+    {
+      "name": "outlier detection",
+      "score": 1.0,
+      "passed": true,
+      "checks": [
+        {
+          "name": "monthly_revenue_above_50000",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "actual_count": 12,
+            "expected_count": 12
+          }
+        },
+        {
+          "name": "support_tickets_at_least_30",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "actual_count": 14,
+            "expected_count": 14
+          }
+        },
+        {
+          "name": "monthly_revenue_outlier_insight_present",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "title": "Monthly Revenue contains outliers"
+          }
+        },
+        {
+          "name": "monthly_revenue_outlier_insight_evidence_present",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "evidence": {
+              "type": "outlier",
+              "column": "monthly_revenue",
+              "columns": [
+                "monthly_revenue"
+              ],
+              "metric": "iqr_outlier_count",
+              "value": 409,
+              "comparison_value": {
+                "lower_bound": -4307.03,
+                "upper_bound": 8242.9
+              },
+              "values": {},
+              "comparison_values": {},
+              "rows_affected": 409,
+              "calculation": "values below Q1 - 1.5*IQR or above Q3 + 1.5*IQR for monthly_revenue",
+              "explanation": "The IQR rule is deterministic and flags values far from the central distribution."
+            }
+          }
+        },
+        {
+          "name": "monthly_revenue_outlier_insight_recommendation_useful",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "recommendation": "Inspect the outlier records before using averages or totals; they may be valid exceptional events or data quality issues."
+          }
+        },
+        {
+          "name": "monthly_revenue_outlier_insight_severity_appropriate",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "severity": "high",
+            "allowed": [
+              "medium",
+              "high"
+            ]
+          }
+        },
+        {
+          "name": "monthly_revenue_outlier_insight_confidence_reasonable",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "confidence": 0.87,
+            "expected_minimum": 0.7
+          }
+        },
+        {
+          "name": "monthly_revenue_outlier_insight_no_unsupported_claim_shape",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "summary": "409 Monthly Revenue values (17.04% of valid rows) fall outside the IQR outlier range.",
+            "evidence_explanation": "The IQR rule is deterministic and flags values far from the central distribution."
+          }
+        }
+      ]
+    },
+    {
+      "name": "trend detection",
+      "score": 1.0,
+      "passed": true,
+      "checks": [
+        {
+          "name": "encoded_monthly_revenue_growth",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "actual_growth_percentage": 115.45,
+            "expected_minimum": 100.0,
+            "first_month": "2024-01",
+            "last_month": "2025-12"
+          }
+        },
+        {
+          "name": "monthly_revenue_trend_insight_present",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "title": "Monthly Revenue increased over time"
+          }
+        },
+        {
+          "name": "monthly_revenue_trend_insight_evidence_present",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "evidence": {
+              "type": "comparison",
+              "column": "monthly_revenue",
+              "columns": [
+                "date",
+                "monthly_revenue"
+              ],
+              "metric": "period_change_percentage",
+              "value": 339.13,
+              "comparison_value": {
+                "first_period_value": 6250.24,
+                "last_period_value": 27446.54
+              },
+              "values": {
+                "first_period": "2024-01-01",
+                "last_period": "2025-12-31",
+                "slope_direction": "positive"
+              },
+              "comparison_values": {},
+              "rows_affected": 2400,
+              "calculation": "(last sum(monthly_revenue) - first sum(monthly_revenue)) / abs(first sum(monthly_revenue))",
+              "explanation": "The trend is based on aggregated metric values ordered by the detected datetime column."
+            }
+          }
+        },
+        {
+          "name": "monthly_revenue_trend_insight_recommendation_useful",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "recommendation": "Check whether this movement aligns with known seasonality, campaigns, or operational changes before treating it as a durable trend."
+          }
+        },
+        {
+          "name": "monthly_revenue_trend_insight_severity_appropriate",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "severity": "medium",
+            "allowed": [
+              "medium",
+              "high"
+            ]
+          }
+        },
+        {
+          "name": "monthly_revenue_trend_insight_confidence_reasonable",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "confidence": 0.92,
+            "expected_minimum": 0.7
+          }
+        },
+        {
+          "name": "monthly_revenue_trend_insight_no_unsupported_claim_shape",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "summary": "Monthly Revenue increased from 6,250.24 in the first period to 27,446.54 in the last period, a 339.13% change.",
+            "evidence_explanation": "The trend is based on aggregated metric values ordered by the detected datetime column."
+          }
+        },
+        {
+          "name": "trend_direction_and_magnitude",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "actual_change_percentage": 339.13,
+            "expected_minimum": 100.0
+          }
+        }
+      ]
+    },
+    {
+      "name": "top category insight",
+      "score": 1.0,
+      "passed": true,
+      "checks": [
+        {
+          "name": "region_top_category_insight_present",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "title": "Monthly Revenue is concentrated in North America"
+          }
+        },
+        {
+          "name": "region_top_category_insight_evidence_present",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "evidence": {
+              "type": "comparison",
+              "column": "region",
+              "columns": [
+                "region",
+                "monthly_revenue"
+              ],
+              "metric": "top_category_share",
+              "value": 53.79,
+              "comparison_value": "share of total",
+              "values": {
+                "top_category": "North America",
+                "top_value": 6307144.91,
+                "total_value": 11724714.13
+              },
+              "comparison_values": {},
+              "rows_affected": 2400,
+              "calculation": "sum(monthly_revenue) grouped by region",
+              "explanation": "The top category share is computed directly from grouped totals and is only emitted when concentration is materially high."
+            }
+          }
+        },
+        {
+          "name": "region_top_category_insight_recommendation_useful",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "recommendation": "Review whether performance depends too heavily on this segment before making broad assumptions from aggregate results."
+          }
+        },
+        {
+          "name": "region_top_category_insight_severity_appropriate",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "severity": "medium",
+            "allowed": [
+              "medium",
+              "high"
+            ]
+          }
+        },
+        {
+          "name": "region_top_category_insight_confidence_reasonable",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "confidence": 0.9,
+            "expected_minimum": 0.65
+          }
+        },
+        {
+          "name": "region_top_category_insight_no_unsupported_claim_shape",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "summary": "North America contributes 53.79% of total Monthly Revenue across Region.",
+            "evidence_explanation": "The top category share is computed directly from grouped totals and is only emitted when concentration is materially high."
+          }
+        },
+        {
+          "name": "top_category_is_expected_segment",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "actual_category": "North America",
+            "expected_category": "North America"
+          }
+        },
+        {
+          "name": "top_category_share_is_material",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "actual_share": 53.79,
+            "expected_minimum": 50.0
+          }
+        }
+      ]
+    },
+    {
+      "name": "concentration insight",
+      "score": 1.0,
+      "passed": true,
+      "checks": [
+        {
+          "name": "enterprise_plan_revenue_concentration_encoded",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "actual_category": "Enterprise",
+            "actual_share": 78.11,
+            "expected_category": "Enterprise",
+            "expected_minimum_share": 70.0
+          }
+        },
+        {
+          "name": "generated_concentration_like_insight_present",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "generated_count": 1,
+            "insight_titles": [
+              "Monthly Revenue is concentrated in North America"
+            ]
+          }
+        },
+        {
+          "name": "concentration_quality_present",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "title": "Monthly Revenue is concentrated in North America"
+          }
+        },
+        {
+          "name": "concentration_quality_evidence_present",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "evidence": {
+              "type": "comparison",
+              "column": "region",
+              "columns": [
+                "region",
+                "monthly_revenue"
+              ],
+              "metric": "top_category_share",
+              "value": 53.79,
+              "comparison_value": "share of total",
+              "values": {
+                "top_category": "North America",
+                "top_value": 6307144.91,
+                "total_value": 11724714.13
+              },
+              "comparison_values": {},
+              "rows_affected": 2400,
+              "calculation": "sum(monthly_revenue) grouped by region",
+              "explanation": "The top category share is computed directly from grouped totals and is only emitted when concentration is materially high."
+            }
+          }
+        },
+        {
+          "name": "concentration_quality_recommendation_useful",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "recommendation": "Review whether performance depends too heavily on this segment before making broad assumptions from aggregate results."
+          }
+        },
+        {
+          "name": "concentration_quality_severity_appropriate",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "severity": "medium",
+            "allowed": null
+          }
+        },
+        {
+          "name": "concentration_quality_confidence_reasonable",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "confidence": 0.9,
+            "expected_minimum": 0.6
+          }
+        },
+        {
+          "name": "concentration_quality_no_unsupported_claim_shape",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "summary": "North America contributes 53.79% of total Monthly Revenue across Region.",
+            "evidence_explanation": "The top category share is computed directly from grouped totals and is only emitted when concentration is materially high."
+          }
+        }
+      ]
+    },
+    {
+      "name": "correlation insight",
+      "score": 1.0,
+      "passed": true,
+      "checks": [
+        {
+          "name": "usage_score_vs_churn",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "actual_correlation": -0.318,
+            "expected_direction": "negative",
+            "expected_min_abs": 0.25
+          }
+        },
+        {
+          "name": "support_tickets_vs_churn",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "actual_correlation": 0.501,
+            "expected_direction": "positive",
+            "expected_min_abs": 0.45
+          }
+        },
+        {
+          "name": "generated_correlation_insight_present",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "title": "Product Usage Score and Nps Score have a strong positive correlation"
+          }
+        },
+        {
+          "name": "generated_correlation_insight_evidence_present",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "evidence": {
+              "type": "correlation",
+              "column": "product_usage_score",
+              "columns": [
+                "product_usage_score",
+                "nps_score"
+              ],
+              "metric": "pearson_correlation",
+              "value": 0.87,
+              "comparison_value": "absolute threshold 0.65",
+              "values": {},
+              "comparison_values": {},
+              "rows_affected": 2066,
+              "calculation": "pearson_corr(product_usage_score, nps_score)",
+              "explanation": "Correlation is computed from paired numeric rows and does not imply causation."
+            }
+          }
+        },
+        {
+          "name": "generated_correlation_insight_recommendation_useful",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "recommendation": "Use this relationship as a signal for further investigation, not as proof that one metric causes the other."
+          }
+        },
+        {
+          "name": "generated_correlation_insight_severity_appropriate",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "severity": "high",
+            "allowed": [
+              "medium",
+              "high"
+            ]
+          }
+        },
+        {
+          "name": "generated_correlation_insight_confidence_reasonable",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "confidence": 0.9,
+            "expected_minimum": 0.75
+          }
+        },
+        {
+          "name": "generated_correlation_insight_no_unsupported_claim_shape",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "summary": "The Pearson correlation between Product Usage Score and Nps Score is 0.87.",
+            "evidence_explanation": "Correlation is computed from paired numeric rows and does not imply causation."
+          }
+        },
+        {
+          "name": "generated_correlation_strength",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "actual_absolute_correlation": 0.87,
+            "expected_minimum": 0.65
+          }
+        }
+      ]
+    },
+    {
+      "name": "report generation",
+      "score": 1.0,
+      "passed": true,
+      "checks": [
+        {
+          "name": "minimum_report_sections_populated",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "key_findings": 6,
+            "risks": 5,
+            "recommendations": 6
+          }
+        },
+        {
+          "name": "evidence_appendix_populated",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "evidence_items": 9,
+            "expected_minimum": 5
+          }
+        },
+        {
+          "name": "key_findings_reference_evidence",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "key_findings": [
+              "The Pearson correlation between Product Usage Score and Nps Score is 0.87. Evidence: pearson_corr(product_usage_score, nps_score) produced 0.87 compared with absolute threshold 0.65.",
+              "409 Monthly Revenue values (17.04% of valid rows) fall outside the IQR outlier range. Evidence: values below Q1 - 1.5*IQR or above Q3 + 1.5*IQR for monthly_revenue produced 409 compared with {'lower_bound': -4307.03, 'upper_bound': 8242.9}.",
+              "Monthly Revenue increased from 6,250.24 in the first period to 27,446.54 in the last period, a 339.13% change. Evidence: (last sum(monthly_revenue) - first sum(monthly_revenue)) / abs(first sum(monthly_revenue)) produced 339.13 compared with {'first_period_value': 6250.24, 'last_period_value': 27446.54}.",
+              "North America contributes 53.79% of total Monthly Revenue across Region. Evidence: sum(monthly_revenue) grouped by region produced 53.79 compared with share of total.",
+              "Monthly Revenue has skew of 4.92, meaning the distribution is not balanced around the average. Evidence: skew(monthly_revenue) produced 4.92 compared with absolute threshold 1.25.",
+              "119 Sales Cycle Days values (5.52% of valid rows) fall outside the IQR outlier range. Evidence: values below Q1 - 1.5*IQR or above Q3 + 1.5*IQR for sales_cycle_days produced 119 compared with {'lower_bound': -46.5, 'upper_bound': 109.5}."
+            ]
+          }
+        },
+        {
+          "name": "no_generic_unsupported_report_language",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "banned_phrase": "data-driven insights"
+          }
+        },
+        {
+          "name": "report_has_useful_recommendations",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "recommendations": [
+              "Use this relationship as a signal for further investigation, not as proof that one metric causes the other.",
+              "Inspect the outlier records before using averages or totals; they may be valid exceptional events or data quality issues.",
+              "Check whether this movement aligns with known seasonality, campaigns, or operational changes before treating it as a durable trend.",
+              "Review whether performance depends too heavily on this segment before making broad assumptions from aggregate results.",
+              "Use medians or percentile views alongside averages when presenting this metric.",
+              "Confirm whether duplicate rows are legitimate repeated events before using totals or averages in decisions."
+            ]
+          }
+        },
+        {
+          "name": "report_evidence_matches_insight_count",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "evidence_items": 9,
+            "insight_count": 9
+          }
+        }
+      ]
+    },
+    {
+      "name": "export generation",
+      "score": 1.0,
+      "passed": true,
+      "checks": [
+        {
+          "name": "html_export_downloadable",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "status_code": 200,
+            "content_type": "text/html; charset=utf-8",
+            "content_disposition": "attachment; filename=\"executive-analysis-memo-saas-growth-sample-csv.html\""
+          }
+        },
+        {
+          "name": "pdf_export_downloadable",
+          "passed": true,
+          "score": 1.0,
+          "details": {
+            "status_code": 200,
+            "content_type": "application/pdf",
+            "content_disposition": "attachment; filename=\"executive-analysis-memo-saas-growth-sample-csv.pdf\""
+          }
+        }
+      ]
+    }
+  ]
+}

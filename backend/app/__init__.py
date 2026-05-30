@@ -1,0 +1,2 @@
+"""InsightPilot FastAPI application package."""
+

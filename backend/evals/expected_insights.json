@@ -1,0 +1,165 @@
+{
+  "dataset": {
+    "name": "saas_growth_sample",
+    "path": "../../sample-data/saas_growth_sample.csv",
+    "expected_rows": 2400,
+    "expected_columns": 14
+  },
+  "minimum_overall_score": 0.85,
+  "profile_expectations": {
+    "column_roles": {
+      "date": {
+        "inferred_type": "datetime",
+        "role": "datetime"
+      },
+      "customer_id": {
+        "inferred_type": "text",
+        "role": "id"
+      },
+      "company_size": {
+        "inferred_type": "categorical",
+        "role": "dimension"
+      },
+      "region": {
+        "inferred_type": "categorical",
+        "role": "dimension"
+      },
+      "acquisition_channel": {
+        "inferred_type": "categorical",
+        "role": "dimension"
+      },
+      "plan": {
+        "inferred_type": "categorical",
+        "role": "dimension"
+      },
+      "monthly_revenue": {
+        "inferred_type": "numeric",
+        "role": "metric"
+      },
+      "product_usage_score": {
+        "inferred_type": "numeric",
+        "role": "metric"
+      },
+      "support_tickets": {
+        "inferred_type": "numeric",
+        "role": "metric"
+      },
+      "churned": {
+        "inferred_type": "numeric",
+        "role": "metric"
+      },
+      "signup_source": {
+        "inferred_type": "categorical",
+        "role": "dimension"
+      },
+      "sales_cycle_days": {
+        "inferred_type": "numeric",
+        "role": "metric"
+      },
+      "discount_percentage": {
+        "inferred_type": "numeric",
+        "role": "metric"
+      },
+      "nps_score": {
+        "inferred_type": "numeric",
+        "role": "metric"
+      }
+    },
+    "missing_counts": {
+      "nps_score": 286,
+      "sales_cycle_days": 243,
+      "discount_percentage": 121,
+      "support_tickets": 80,
+      "product_usage_score": 54,
+      "signup_source": 39
+    },
+    "duplicate_row_count": 25
+  },
+  "expected_data_facts": {
+    "monthly_revenue_growth": {
+      "first_month": "2024-01",
+      "last_month": "2025-12",
+      "first_month_revenue": 359725.52,
+      "last_month_revenue": 775039.71,
+      "minimum_growth_percentage": 100.0
+    },
+    "plan_concentration": {
+      "dimension": "plan",
+      "metric": "monthly_revenue",
+      "top_category": "Enterprise",
+      "minimum_share_percentage": 70.0
+    },
+    "region_concentration": {
+      "dimension": "region",
+      "metric": "monthly_revenue",
+      "top_category": "North America",
+      "minimum_share_percentage": 50.0
+    },
+    "paid_acquisition_quality_story": {
+      "paid_channels": ["Paid Search", "Paid Social"],
+      "late_period_start": "2025-07-01",
+      "minimum_late_paid_row_share_percentage": 35.0,
+      "minimum_late_paid_revenue_share_percentage": 20.0,
+      "minimum_churn_gap_percentage_points": 15.0,
+      "minimum_usage_gap_points": 15.0
+    },
+    "correlations": {
+      "usage_score_vs_churn": {
+        "left": "product_usage_score",
+        "right": "churned",
+        "expected_direction": "negative",
+        "minimum_absolute_value": 0.25
+      },
+      "support_tickets_vs_churn": {
+        "left": "support_tickets",
+        "right": "churned",
+        "expected_direction": "positive",
+        "minimum_absolute_value": 0.45
+      }
+    },
+    "outliers": {
+      "monthly_revenue_above_50000": 12,
+      "support_tickets_at_least_30": 14,
+      "discount_percentage_at_least_50": 10
+    }
+  },
+  "generated_insight_expectations": {
+    "trend": {
+      "insight_type": "trend",
+      "required_columns": ["date", "monthly_revenue"],
+      "minimum_change_percentage": 100.0,
+      "allowed_severities": ["medium", "high"],
+      "minimum_confidence": 0.7
+    },
+    "top_category": {
+      "insight_types": ["top_category", "concentration"],
+      "metric": "top_category_share",
+      "required_columns": ["region", "monthly_revenue"],
+      "expected_category": "North America",
+      "minimum_share_percentage": 50.0,
+      "allowed_severities": ["medium", "high"],
+      "minimum_confidence": 0.65
+    },
+    "correlation": {
+      "insight_type": "correlation",
+      "metric": "pearson_correlation",
+      "minimum_absolute_value": 0.65,
+      "allowed_severities": ["medium", "high"],
+      "minimum_confidence": 0.75
+    },
+    "outlier": {
+      "insight_type": "outlier",
+      "metric": "iqr_outlier_count",
+      "required_columns": ["monthly_revenue"],
+      "minimum_rows_affected": 100,
+      "allowed_severities": ["medium", "high"],
+      "minimum_confidence": 0.7
+    }
+  },
+  "report_expectations": {
+    "minimum_key_findings": 4,
+    "minimum_risks": 3,
+    "minimum_recommendations": 4,
+    "minimum_evidence_items": 5
+  }
+}
