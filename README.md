@@ -628,7 +628,6 @@ InsightPilot demonstrates:
 
 ## Documentation
 
-- [Project context](insightpilot.md)
 - [Technical architecture](docs/technical-architecture.md)
 - [API contract](docs/api-contract.md)
 - [Analytics rules](docs/analytics-rules.md)
