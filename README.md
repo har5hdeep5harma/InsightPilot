@@ -1,12 +1,42 @@
 # InsightPilot
 
-**Turn spreadsheets into executive-grade analysis reports.**
+**Evidence-first analysis for decision-ready reports.**
 
-InsightPilot is a premium AI-assisted data analysis studio that converts CSV/XLSX files into profiler output, recommended analytical exhibits, evidence-backed insights, and a polished decision memo.
+InsightPilot turns a CSV or XLSX file into a defensible analytical workflow: profile the data, assess its quality, recommend only supported visualizations, generate evidence-backed findings, and assemble an executive memo.
+
+> A local-first data analysis studio for analysts, consultants, operators, and product teams who need more than a dashboard and less than a full BI platform.
+
+## At A Glance
+
+| Capability | What InsightPilot delivers |
+| --- | --- |
+| **Input** | CSV/XLSX upload with validation and a real parsed preview |
+| **Analysis** | Column roles, quality scoring, missingness, duplicates, outliers, distributions, and correlations |
+| **Visuals** | Backend-generated chart specifications rendered from verified data |
+| **Narrative** | Deterministic insights with calculations, confidence, severity, and recommendations |
+| **Output** | Executive report preview plus standalone HTML and optional PDF export |
+| **Trust model** | AI is optional; unsupported claims are rejected rather than invented |
+
+## Why It Stands Out
+
+InsightPilot treats analysis as a chain of evidence, not a prompt-and-response trick. The backend computes the facts first. The frontend exposes the reasoning. The report preserves an evidence appendix so a reviewer can move from a conclusion back to the columns, values, and calculation that support it.
+
+The result is intentionally modest in its claims and ambitious in its usefulness: fewer findings, stronger evidence, and charts that disappear when the dataset cannot support them.
+
+## Contents
+
+- [Product Flow](#product-flow)
+- [Trust and Analytical Contract](#trust-and-analytical-contract)
+- [Architecture](#architecture-overview)
+- [Quick Start](#quick-start)
+- [Product Capabilities](#key-features)
+- [Testing and Evaluation](#evaluation-approach)
+- [Repository Map](#repository-map)
+- [Limitations and Roadmap](#current-limitations)
 
 It is built to answer a practical business problem: many people have spreadsheets, but few have the time or analytical fluency to turn raw rows into a clear, defensible executive report.
 
-## Problem Statement
+## Product Flow
 
 Most spreadsheet analysis tools stop too early.
 
@@ -19,6 +49,17 @@ Raw spreadsheet -> profiling -> chart recommendations -> deterministic insights 
 ```
 
 The product prioritizes reliability over theatrical AI output. Analytics are deterministic first. AI, when enabled, is only allowed to polish already-computed report prose.
+
+## Trust and Analytical Contract
+
+InsightPilot follows four rules throughout the product:
+
+1. **Compute before explaining.** Charts, metrics, and insight evidence originate in the backend analysis pipeline.
+2. **Show the contract.** Each insight exposes its evidence, related columns, calculation, confidence, and recommendation.
+3. **Refuse weak exhibits.** A chart is recommended only when the detected roles and usable values support it; empty or degenerate visuals are omitted.
+4. **Keep AI bounded.** Narrative polishing is optional and receives structured report facts, not raw permission to invent an analysis.
+
+This makes the project useful as both a working local product and a transparent reference implementation for evidence-backed analytics.
 
 ## Product Demo Flow
 
@@ -92,6 +133,25 @@ insightpilot/
   sample-data/
   docs/
 ```
+
+```mermaid
+flowchart LR
+    A[CSV or XLSX] --> B[FastAPI upload API]
+    B --> C[Parser and local artifact]
+    C --> D[Profiler]
+    D --> E[Chart recommender]
+    D --> F[Deterministic insight engine]
+    E --> G[Next.js chart gallery]
+    F --> H[Evidence-backed report]
+    G --> H
+    H --> I[HTML or PDF export]
+    H -. optional .-> J[AI narrative polish]
+    J --> K{Validation}
+    K -->|valid| H
+    K -->|rejected| H
+```
+
+The important boundary is between computation and language: the report can be generated without an AI provider, and optional narrative polishing cannot become the source of analytical facts.
 
 Frontend responsibilities:
 
@@ -286,7 +346,7 @@ Suggested location for committed screenshots:
 docs/screenshots/
 ```
 
-## Local Setup
+## Quick Start
 
 Requirements:
 
@@ -324,31 +384,7 @@ Frontend URL:
 http://localhost:3000
 ```
 
-One-command local launch on Windows:
-
-```powershell
-.\run-insightpilot.ps1
-```
-
-If your Windows execution policy blocks local scripts:
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File .\run-insightpilot.ps1
-```
-
-First-time setup plus launch:
-
-```powershell
-.\run-insightpilot.ps1 -Install
-```
-
-Useful options:
-
-```powershell
-.\run-insightpilot.ps1 -FrontendPort 3001 -BackendPort 8001
-.\run-insightpilot.ps1 -NoBrowser
-.\run-insightpilot.ps1 -CheckOnly
-```
+Open the frontend, choose **Try the sample dataset**, and follow the flow from the parsed preview to the profile, chart gallery, insight board, and report. The sample is intentionally designed to exercise the complete product path.
 
 Optional higher-fidelity PDF export:
 
@@ -379,6 +415,76 @@ Detailed API notes:
 
 - [API contract](docs/api-contract.md)
 - [Technical architecture](docs/technical-architecture.md)
+
+## Deployment
+
+The simplest public demo architecture is:
+
+```text
+Next.js frontend on Vercel
+          |
+          v
+FastAPI backend on Render or Google Cloud Run
+          |
+          +--> managed Postgres for metadata
+          +--> object storage for uploaded datasets and exports
+```
+
+### Free and low-cost backend options
+
+| Platform | Best use | Important trade-off |
+| --- | --- | --- |
+| **Render** | Easiest first deployment for this FastAPI app | Free services sleep when idle and their local filesystem is ephemeral |
+| **Google Cloud Run** | More production-like, stateless container deployment | Requires a billing account; free usage depends on the current Cloud Run allowance |
+| **Hugging Face Spaces** | Public demo or portfolio showcase | Free Spaces sleep and persistent storage is not included by default |
+| **Koyeb** | Small containerized API experiments | Free capacity and regional availability can change; treat it as a demo tier |
+
+Railway is useful for short trials, but its free offering is credit-based rather than a dependable permanent free tier. Vercel is excellent for the Next.js frontend, but it is not the preferred home for this backend because pandas processing, file uploads, and report generation are a better fit for a long-running container.
+
+### Recommended first deployment
+
+For a portfolio or client demonstration, deploy the frontend to Vercel and the backend to Render using:
+
+```bash
+uvicorn app.main:app --host 0.0.0.0 --port $PORT
+```
+
+Set the frontend environment variable to the public API URL:
+
+```text
+NEXT_PUBLIC_API_BASE_URL=https://your-fastapi-service.example.com
+```
+
+Set the backend CORS origin to the deployed frontend:
+
+```text
+INSIGHTPILOT_CORS_ORIGINS=https://your-frontend.example.com
+```
+
+This is suitable for a non-persistent demo with the current local SQLite and artifact settings. For real users, replace the local state before launch:
+
+```text
+INSIGHTPILOT_DATABASE_URL=postgresql+psycopg://...
+INSIGHTPILOT_UPLOAD_DIR=<mounted or object-storage-backed path>
+INSIGHTPILOT_EXPORT_DIR=<mounted or object-storage-backed path>
+```
+
+Do not treat a free container's local disk as durable storage. Render, Cloud Run, and Spaces can restart or replace instances, which can remove SQLite files and uploaded artifacts. The backend should also validate the uploaded file size and type, keep AI narrative polishing disabled by default, and expose `/health` for platform health checks.
+
+## Repository Map
+
+```text
+backend/
+  app/              FastAPI routes, models, repositories, profiling, charts, insights, reports
+  tests/            API and analytical behavior tests
+  evals/            End-to-end insight quality evaluation
+frontend/
+  app/              Next.js routes and page composition
+  components/       Product shell, upload, profile, charts, insights, reports, UI primitives
+  lib/              API clients and report-selection helpers
+sample-data/        Reproducible demo CSVs and expected analytical story
+docs/               Architecture, API, analytics rules, setup, and design system
+```
 
 ## Sample Dataset
 

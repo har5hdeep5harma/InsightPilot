@@ -118,7 +118,7 @@ def _time_series_charts(
     datetime_column = datetime_columns[0]
     metric = metrics[0]
     chart_data = _time_series_data(dataframe, datetime_column.name, metric.name)
-    if len(chart_data) < 2:
+    if len(chart_data) < 2 or not _has_numeric_variation(chart_data, metric.name):
         return []
 
     return [
@@ -155,7 +155,7 @@ def _bar_charts(
             metric.name,
             top_n=TOP_CATEGORY_LIMIT,
         )
-        if len(chart_data) < 2:
+        if len(chart_data) < 2 or not _has_numeric_variation(chart_data, metric.name):
             continue
         charts.append(
             _chart_spec(
@@ -203,7 +203,10 @@ def _concentration_charts(
             title_metric = "Record Count"
             reasoning_metric = "record count"
 
-        if len(chart_data) < 2 or not _has_meaningful_concentration(chart_data, value_column):
+        if len(chart_data) < 2 or not _has_numeric_variation(chart_data, value_column):
+            continue
+
+        if not _has_meaningful_concentration(chart_data, value_column):
             continue
 
         charts.append(
@@ -231,7 +234,7 @@ def _histogram_charts(
     charts: list[ChartSpec] = []
     for metric in metrics[:2]:
         chart_data = _histogram_data(dataframe, metric.name)
-        if len(chart_data) < 2:
+        if len(chart_data) < 2 or not _has_numeric_variation(chart_data, "count"):
             continue
         charts.append(
             _chart_spec(
@@ -261,6 +264,11 @@ def _scatter_charts(
     x_metric, y_metric = metrics[0], metrics[1]
     chart_data = _scatter_data(dataframe, x_metric.name, y_metric.name)
     if len(chart_data) < 5:
+        return []
+
+    x_values = [float(row.get(x_metric.name, 0)) for row in chart_data if isinstance(row.get(x_metric.name, 0), int | float)]
+    y_values = [float(row.get(y_metric.name, 0)) for row in chart_data if isinstance(row.get(y_metric.name, 0), int | float)]
+    if not _has_numeric_variation_from_values(x_values) or not _has_numeric_variation_from_values(y_values):
         return []
 
     return [
@@ -326,6 +334,16 @@ def _box_plot_charts(
     if len(chart_data) < 2:
         return []
 
+    metric_values: list[float] = []
+    for row in chart_data:
+        for key in ("min", "q1", "median", "q3", "max"):
+            value = row.get(key)
+            if isinstance(value, int | float):
+                metric_values.append(float(value))
+
+    if not _has_numeric_variation_from_values(metric_values):
+        return []
+
     return [
         _chart_spec(
             dataset_id=dataset_id,
@@ -362,6 +380,14 @@ def _stacked_bar_charts(
     metric = metrics[0]
     chart_data = _stacked_bar_data(dataframe, primary.name, secondary.name, metric.name)
     if len(chart_data) < 2:
+        return []
+    pivot_values = [
+        float(value)
+        for row in chart_data
+        for value in row.values()
+        if isinstance(value, int | float)
+    ]
+    if not _has_numeric_variation_from_values(pivot_values):
         return []
 
     return [
@@ -577,6 +603,22 @@ def _has_meaningful_concentration(
     if total <= 0 or len(values) < 2:
         return False
     return max(values) / total >= 0.3
+
+
+def _has_numeric_variation(chart_data: list[dict[str, object]], value_key: str) -> bool:
+    values = [
+        float(row.get(value_key, 0))
+        for row in chart_data
+        if isinstance(row.get(value_key, 0), int | float)
+    ]
+    return _has_numeric_variation_from_values(values)
+
+
+def _has_numeric_variation_from_values(values: list[float]) -> bool:
+    numeric_values = [value for value in values if pd.notna(value) and math.isfinite(value)]
+    if len(numeric_values) < 2:
+        return False
+    return max(numeric_values) - min(numeric_values) > 0
 
 
 def _chart_spec(

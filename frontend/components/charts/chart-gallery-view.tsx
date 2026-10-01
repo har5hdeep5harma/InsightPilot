@@ -53,6 +53,10 @@ export function ChartGalleryView({ datasetId }: ChartGalleryViewProps) {
     };
   }, [datasetId]);
 
+  const visibleCharts = useMemo(() => {
+    return charts?.filter((chart) => hasUsableChartData(chart)) ?? [];
+  }, [charts]);
+
   const includedCount = useMemo(() => includedChartIds.size, [includedChartIds]);
 
   function toggleIncluded(chartId: string) {
@@ -112,15 +116,15 @@ export function ChartGalleryView({ datasetId }: ChartGalleryViewProps) {
         </div>
       </div>
 
-      {charts.length === 0 ? (
+      {visibleCharts.length === 0 ? (
         <EmptyState
           title="No useful charts recommended"
-          description="The backend did not find enough usable non-ID columns to recommend charts for this dataset."
+          description="The backend did not find enough usable signal in this dataset to recommend a meaningful chart."
           icon={<BarChart3 className="h-4 w-4" aria-hidden="true" />}
         />
       ) : (
         <div className="grid gap-5">
-          {charts.map((chart) => (
+          {visibleCharts.map((chart) => (
             <Panel key={chart.id} as="article" className="overflow-hidden">
               <div className="border-b px-5 py-4">
                 <div className="flex flex-wrap items-start justify-between gap-4">
@@ -254,6 +258,27 @@ function formatCompact(value: number) {
     return `${(value / 1_000).toFixed(1)}k`;
   }
   return Number.isInteger(value) ? String(value) : value.toFixed(1);
+}
+
+function hasUsableChartData(chart: ChartSpec) {
+  if (!chart.chart_data.length) {
+    return false;
+  }
+
+  const numericValues = chart.chart_data
+    .flatMap((row) => Object.values(row))
+    .map((value) => (typeof value === "number" ? value : Number(value)))
+    .filter((value) => Number.isFinite(value));
+
+  if (!numericValues.length) {
+    return false;
+  }
+
+  if (chart.chart_type === "correlation_heatmap") {
+    return chart.chart_data.some((row) => Number.isFinite(Number(row.correlation)));
+  }
+
+  return new Set(numericValues).size > 1;
 }
 
 function ChartFact({ label, value }: { label: string; value: string }) {

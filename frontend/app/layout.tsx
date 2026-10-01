@@ -3,7 +3,12 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "InsightPilot",
-  description: "Premium AI-assisted data analysis studio for evidence-backed reports."
+  description: "Premium AI-assisted data analysis studio for evidence-backed reports.",
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+    apple: "/favicon.svg"
+  }
 };
 
 export default function RootLayout({

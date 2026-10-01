@@ -30,10 +30,12 @@ type ChartRendererProps = {
 };
 
 export function ChartRenderer({ chart }: ChartRendererProps) {
-  if (!chart.chart_data.length) {
+  const usableData = normalizeChartRows(chart.chart_data);
+
+  if (!usableData.length) {
     return (
       <div className="flex h-72 items-center justify-center rounded-lg border border-dashed bg-surface-raised text-body-sm text-muted-foreground">
-        No chart data returned by the backend.
+        No usable chart data was returned by the backend.
       </div>
     );
   }
@@ -43,15 +45,15 @@ export function ChartRenderer({ chart }: ChartRendererProps) {
   }
 
   if (chart.chart_type === "bar") {
-    return <BarChartRenderer chart={chart} layout="vertical" />;
-  }
-
-  if (chart.chart_type === "horizontal_bar") {
     return <BarChartRenderer chart={chart} layout="horizontal" />;
   }
 
-  if (chart.chart_type === "histogram") {
+  if (chart.chart_type === "horizontal_bar") {
     return <BarChartRenderer chart={chart} layout="vertical" />;
+  }
+
+  if (chart.chart_type === "histogram") {
+    return <BarChartRenderer chart={chart} layout="horizontal" />;
   }
 
   if (chart.chart_type === "scatter") {
@@ -80,11 +82,12 @@ export function ChartRenderer({ chart }: ChartRendererProps) {
 function LineChartRenderer({ chart }: ChartRendererProps) {
   const xKey = chart.x_column ?? "x";
   const yKey = chart.y_column ?? "y";
+  const data = normalizeChartRows(chart.chart_data, [xKey, yKey], { numericKeys: [yKey] });
 
   return (
     <ChartFrame>
       <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={chart.chart_data} margin={{ top: 12, right: 24, left: 8, bottom: 24 }}>
+        <LineChart data={data} margin={{ top: 12, right: 24, left: 8, bottom: 24 }}>
           <CartesianGrid stroke="#e2e8f0" vertical={false} />
           <XAxis dataKey={xKey} tick={axisTick} minTickGap={24} />
           <YAxis tick={axisTick} width={64} tickFormatter={formatAxisNumber} />
@@ -110,31 +113,29 @@ function BarChartRenderer({
 }: ChartRendererProps & { layout: "vertical" | "horizontal" }) {
   const xKey = chart.x_column ?? "x";
   const yKey = chart.y_column ?? "y";
-  const isHorizontal = layout === "horizontal";
+  const isHorizontal = layout === "vertical";
+  const data = normalizeChartRows(chart.chart_data, [xKey, yKey], {
+    numericKeys: [isHorizontal ? xKey : yKey]
+  });
 
   return (
     <ChartFrame heightClass={isHorizontal ? "h-[360px]" : "h-80"}>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
-          data={chart.chart_data}
+          data={data}
           layout={isHorizontal ? "vertical" : "horizontal"}
           margin={{ top: 12, right: 24, left: isHorizontal ? 72 : 8, bottom: 24 }}
         >
           <CartesianGrid stroke="#e2e8f0" horizontal={!isHorizontal} vertical={isHorizontal} />
+          {isHorizontal && <XAxis type="number" tick={axisTick} tickFormatter={formatAxisNumber} />}
+          {isHorizontal && <YAxis type="category" dataKey={yKey} tick={axisTick} width={96} />}
+          {!isHorizontal && <XAxis dataKey={xKey} tick={axisTick} interval={0} angle={-18} textAnchor="end" height={64} />}
+          {!isHorizontal && <YAxis type="number" tick={axisTick} width={64} tickFormatter={formatAxisNumber} />}
+          <Tooltip content={<ChartTooltip />} />
           {isHorizontal ? (
-            <>
-              <XAxis type="number" tick={axisTick} tickFormatter={formatAxisNumber} />
-              <YAxis type="category" dataKey={yKey} tick={axisTick} width={96} />
-              <Tooltip content={<ChartTooltip />} />
-              <Bar dataKey={xKey} fill={CHART_BLUE} radius={[0, 4, 4, 0]} isAnimationActive={false} />
-            </>
+            <Bar dataKey={xKey} fill={CHART_BLUE} radius={[0, 4, 4, 0]} isAnimationActive={false} />
           ) : (
-            <>
-              <XAxis dataKey={xKey} tick={axisTick} interval={0} angle={-18} textAnchor="end" height={64} />
-              <YAxis tick={axisTick} width={64} tickFormatter={formatAxisNumber} />
-              <Tooltip content={<ChartTooltip />} />
-              <Bar dataKey={yKey} fill={CHART_BLUE} radius={[4, 4, 0, 0]} isAnimationActive={false} />
-            </>
+            <Bar dataKey={yKey} fill={CHART_BLUE} radius={[4, 4, 0, 0]} isAnimationActive={false} />
           )}
         </BarChart>
       </ResponsiveContainer>
@@ -145,6 +146,7 @@ function BarChartRenderer({
 function ScatterChartRenderer({ chart }: ChartRendererProps) {
   const xKey = chart.x_column ?? "x";
   const yKey = chart.y_column ?? "y";
+  const data = normalizeChartRows(chart.chart_data, [xKey, yKey], { numericKeys: [xKey, yKey] });
 
   return (
     <ChartFrame>
@@ -154,7 +156,7 @@ function ScatterChartRenderer({ chart }: ChartRendererProps) {
           <XAxis dataKey={xKey} type="number" name={xKey} tick={axisTick} tickFormatter={formatAxisNumber} />
           <YAxis dataKey={yKey} type="number" name={yKey} tick={axisTick} tickFormatter={formatAxisNumber} width={64} />
           <Tooltip content={<ChartTooltip />} cursor={{ strokeDasharray: "3 3" }} />
-          <Scatter data={chart.chart_data} fill={CHART_BLUE} isAnimationActive={false} />
+          <Scatter data={data} fill={CHART_BLUE} isAnimationActive={false} />
         </ScatterChart>
       </ResponsiveContainer>
     </ChartFrame>
@@ -163,12 +165,13 @@ function ScatterChartRenderer({ chart }: ChartRendererProps) {
 
 function StackedBarChartRenderer({ chart }: ChartRendererProps) {
   const xKey = chart.x_column ?? "x";
-  const stackKeys = Object.keys(chart.chart_data[0] ?? {}).filter((key) => key !== xKey);
+  const data = normalizeChartRows(chart.chart_data, [xKey], { numericKeys: Object.keys(chart.chart_data[0] ?? {}).filter((key) => key !== xKey) });
+  const stackKeys = Object.keys(data[0] ?? {}).filter((key) => key !== xKey);
 
   return (
     <ChartFrame>
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={chart.chart_data} margin={{ top: 12, right: 24, left: 8, bottom: 28 }}>
+        <BarChart data={data} margin={{ top: 12, right: 24, left: 8, bottom: 28 }}>
           <CartesianGrid stroke="#e2e8f0" vertical={false} />
           <XAxis dataKey={xKey} tick={axisTick} interval={0} angle={-18} textAnchor="end" height={64} />
           <YAxis tick={axisTick} width={64} tickFormatter={formatAxisNumber} />
@@ -279,6 +282,50 @@ function BoxPlotRenderer({ chart }: ChartRendererProps) {
       })}
     </div>
   );
+}
+
+function normalizeChartRows(
+  rows: Record<string, unknown>[],
+  keys: Array<string | null | undefined> = [],
+  options: { numericKeys?: string[] } = {}
+) {
+  const numericKeys = new Set(options.numericKeys ?? []);
+
+  return rows
+    .map((row) => {
+      const normalized: Record<string, unknown> = {};
+
+      for (const [key, value] of Object.entries(row)) {
+        if (value === null || value === undefined || (typeof value === "string" && value.trim() === "")) {
+          normalized[key] = undefined;
+          continue;
+        }
+
+        const shouldCoerce = numericKeys.has(key) || (keys.includes(key) && typeof value === "string");
+        if (shouldCoerce) {
+          const numeric = Number(value);
+          normalized[key] = Number.isFinite(numeric) ? numeric : value;
+        } else {
+          normalized[key] = value;
+        }
+      }
+
+      return normalized;
+    })
+    .filter((row) => {
+      if (keys.length === 0) {
+        return Object.values(row).some((value) => value !== undefined && value !== null && value !== "");
+      }
+
+      return keys.every((key) => {
+        if (!key) {
+          return true;
+        }
+
+        const value = row[key];
+        return value !== undefined && value !== null && value !== "";
+      });
+    });
 }
 
 function ChartFrame({

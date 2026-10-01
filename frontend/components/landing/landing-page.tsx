@@ -16,6 +16,7 @@ import {
   TableProperties
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { BrandMark } from "@/components/layout/brand-mark";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { cn } from "@/lib/utils";
 
@@ -117,9 +118,7 @@ function LandingNav() {
     <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/86">
       <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-3">
-          <span className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-xs font-semibold text-primary-foreground">
-            IP
-          </span>
+          <BrandMark />
           <span className="text-body-sm font-semibold">InsightPilot</span>
         </Link>
         <nav className="hidden items-center gap-6 text-body-sm text-muted-foreground md:flex">

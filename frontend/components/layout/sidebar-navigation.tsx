@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { BarChart3, FileText, Layers3, UploadCloud } from "lucide-react";
+import { BrandMark } from "@/components/layout/brand-mark";
 
 const navItems = [
   { label: "Profile", icon: Layers3 },
@@ -11,9 +12,7 @@ export function SidebarNavigation() {
   return (
     <aside className="hidden w-64 shrink-0 border-r bg-surface/90 px-4 py-5 lg:block">
       <Link href="/" className="flex items-center gap-3 rounded-md px-2 py-2">
-        <span className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-xs font-semibold text-primary-foreground">
-          IP
-        </span>
+        <BrandMark />
         <span>
           <span className="block text-body-sm font-semibold text-foreground">InsightPilot</span>
           <span className="block text-caption text-muted-foreground">Analysis Studio</span>

@@ -50,6 +50,19 @@ def test_recommends_top_n_bar_for_categories_and_sales(tmp_path) -> None:
     assert concentration_chart["reasoning"]
 
 
+def test_skips_flat_metric_charts_without_signal(tmp_path) -> None:
+    with _test_client(tmp_path) as client:
+        dataset_id = _upload_csv(client, "flat_metrics.csv", _flat_metric_csv())
+        response = client.get(f"/api/datasets/{dataset_id}/charts")
+
+    assert response.status_code == 200
+    charts = response.json()
+
+    assert _chart_by_type(charts, "line") is None
+    assert _chart_by_type(charts, "bar") is None
+    assert _chart_by_type(charts, "histogram") is None
+
+
 def test_recommends_scatter_and_correlation_for_numeric_pairs(tmp_path) -> None:
     with _test_client(tmp_path) as client:
         dataset_id = _upload_csv(client, "numeric_pairs.csv", _numeric_pairs_csv())
@@ -164,6 +177,13 @@ def _numeric_pairs_csv() -> str:
         revenue = index * 260 + (index % 3) * 35
         profit = revenue - ad_spend * 0.55
         rows.append(f"{ad_spend},{revenue},{round(profit, 2)}")
+    return "\n".join(rows)
+
+
+def _flat_metric_csv() -> str:
+    rows = ["order_date,region,revenue,sales"]
+    for index in range(1, 9):
+        rows.append(f"2026-01-{index:02d},West,100,100")
     return "\n".join(rows)
 
 

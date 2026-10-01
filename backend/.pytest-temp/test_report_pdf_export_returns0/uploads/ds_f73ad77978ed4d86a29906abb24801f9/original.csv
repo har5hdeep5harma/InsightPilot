@@ -1,0 +1,14 @@
+order_id,order_date,region,channel,revenue,ad_spend,profit,cost
+ORD-001,2026-01-01,East,Online,100,50,30,70
+ORD-002,2026-01-02,East,Online,120,60,36,
+ORD-002,2026-01-02,East,Online,120,60,36,
+ORD-003,2026-01-03,South,Online,140,70,42,
+ORD-004,2026-01-04,South,Partner,160,80,48,100
+ORD-005,2026-01-05,North,Partner,180,90,54,
+ORD-006,2026-01-06,North,Direct,200,100,60,130
+ORD-007,2026-01-07,West,Direct,800,400,240,
+ORD-008,2026-01-08,West,Online,900,450,270,500
+ORD-009,2026-01-09,West,Partner,1000,500,300,
+ORD-010,2026-01-10,West,Direct,1200,600,360,700
+ORD-011,2026-01-11,West,Online,1500,750,450,900
+ORD-012,2026-01-12,West,Partner,5000,2500,1500,3000
