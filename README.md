@@ -1,10 +1,18 @@
 # InsightPilot
 
+<img src="https://raw.githubusercontent.com/har5hdeep5harma/InsightPilot/refs/heads/main/Miscellaneous/01.png" alt="InsightPilot Homepage" width="820" />
+
 **Evidence-first analysis for decision-ready reports.**
 
 InsightPilot turns a CSV or XLSX file into a defensible analytical workflow: profile the data, assess its quality, recommend only supported visualizations, generate evidence-backed findings, and assemble an executive memo.
 
 > A local-first data analysis studio for analysts, consultants, operators, and product teams who need more than a dashboard and less than a full BI platform.
+
+<div align="center">
+  <img src="https://raw.githubusercontent.com/har5hdeep5harma/InsightPilot/refs/heads/main/Miscellaneous/02.png" width="390" />
+  <img src="https://raw.githubusercontent.com/har5hdeep5harma/InsightPilot/refs/heads/main/Miscellaneous/03.png" width="390" />
+  <img src="https://raw.githubusercontent.com/har5hdeep5harma/InsightPilot/refs/heads/main/Miscellaneous/04.png" width="390" />
+</div>
 
 ## At A Glance
 
